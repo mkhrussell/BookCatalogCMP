@@ -1,7 +1,7 @@
 TEAM_ID=
 
-PRODUCT_NAME=Book Catalog CMP
-PRODUCT_BUNDLE_IDENTIFIER=com.kamrul.bookcatalog.BookCatalogCMP$(TEAM_ID)
+PRODUCT_NAME=BookCatalogCMP
+PRODUCT_BUNDLE_IDENTIFIER=com.kamrul.bookcatalog.bookcatalogcmp$(TEAM_ID)
 
 CURRENT_PROJECT_VERSION=1
 MARKETING_VERSION=1.0

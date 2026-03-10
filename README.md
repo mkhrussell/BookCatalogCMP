@@ -1,16 +1,17 @@
 # BookCatalogCMP
 
-This is a Kotlin Multiplatform project targeting Android, iOS, Desktop (JVM).
+This is a Kotlin Multiplatform project targeting Android, iOS, Desktop (JVM) and Web.
 
-* [/composeApp](./composeApp/src) is for code that will be shared across your Compose Multiplatform applications.
+* [/shared](./shared/src) is for code that will be shared across your Compose Multiplatform applications.
   It contains several subfolders:
-  - [commonMain](./composeApp/src/commonMain/kotlin) is for code that’s common for all targets.
+  - [commonMain](./shared/src/commonMain/kotlin) is for code that’s common for all targets.
   - Other folders are for Kotlin code that will be compiled for only the platform indicated in the folder name.
     For example, if you want to use Apple’s CoreCrypto for the iOS part of your Kotlin app,
-    the [iosMain](./composeApp/src/iosMain/kotlin) folder would be the right place for such calls.
-    Similarly, if you want to edit the Desktop (JVM) specific part, the [jvmMain](./composeApp/src/jvmMain/kotlin)
-    folder is the appropriate location.
+    the [iosMain](./shared/src/iosMain/kotlin) folder would be the right place for such calls.
 
+* [/androidApp](./androidApp) contains Android applications.
+* [/desktopApp](./desktopApp) contains desktop (JVM) applications.
+* [/webApp](./webApp) contains web applications.
 * [/iosApp](./iosApp/iosApp) contains iOS applications. Even if you’re sharing your UI with Compose Multiplatform,
   you need this entry point for your iOS app. This is also where you should add SwiftUI code for your project.
 
@@ -20,11 +21,11 @@ To build and run the development version of the Android app, use the run configu
 in your IDE’s toolbar or build it directly from the terminal:
 - on macOS/Linux
   ```shell
-  ./gradlew :composeApp:assembleDebug
+  ./gradlew :androidApp:assembleDebug
   ```
 - on Windows
   ```shell
-  .\gradlew.bat :composeApp:assembleDebug
+  .\gradlew.bat :androidApp:assembleDebug
   ```
 
 ### Build and Run Desktop (JVM) Application
@@ -33,11 +34,24 @@ To build and run the development version of the desktop app, use the run configu
 in your IDE’s toolbar or run it directly from the terminal:
 - on macOS/Linux
   ```shell
-  ./gradlew :composeApp:run
+  ./gradlew :desktopApp:run
   ```
 - on Windows
   ```shell
-  .\gradlew.bat :composeApp:run
+  .\gradlew.bat :desktopApp:run
+  ```
+
+### Build and Run Web Application
+
+To build and run the development version of the desktop app, use the run configuration from the run widget
+in your IDE’s toolbar or run it directly from the terminal:
+- on macOS/Linux
+  ```shell
+  ./gradlew :webApp:jsBrowserDevelopmentRun
+  ```
+- on Windows
+  ```shell
+  .\gradlew.bat :webApp:jsBrowserDevelopmentRun
   ```
 
 ### Build and Run iOS Application
