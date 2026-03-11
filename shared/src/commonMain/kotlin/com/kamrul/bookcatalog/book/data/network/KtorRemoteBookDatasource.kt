@@ -1,17 +1,29 @@
 package com.kamrul.bookcatalog.book.data.network
 
-import com.kamrul.bookcatalog.book.domain.Book
+import com.kamrul.bookcatalog.book.data.dto.SearchResponseDto
+import com.kamrul.bookcatalog.core.data.safeCall
 import com.kamrul.bookcatalog.core.domain.DataError
 import com.kamrul.bookcatalog.core.domain.Result
 import io.ktor.client.HttpClient
+import io.ktor.client.request.get
+import io.ktor.client.request.parameter
+
+private const val BASE_URL = "https://openlibrary.org"
 
 class KtorRemoteBookDatasource(
     private val httpClient: HttpClient,
-) {
-    suspend fun searchBooks(
+): RemoteBookDataSource {
+    override suspend fun searchBooks(
         query: String,
-        resultLimit: Int? = null
-    ): Result<List<Book>, DataError.Remote> {
-        TODO()
+        resultLimit: Int?
+    ): Result<SearchResponseDto, DataError.Remote> {
+        return safeCall<SearchResponseDto> {
+            httpClient.get("$BASE_URL/search.json") {
+                parameter("q", query)
+                parameter("limit", resultLimit)
+                parameter("language", "eng")
+                parameter("fields", "key,title,author_name,author_key,cover_edition_key,cover_i,ratings_average,ratings_count,first_publish_year,language,number_of_pages_median,edition_count")
+            }
+        }
     }
 }
