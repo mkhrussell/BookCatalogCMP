@@ -60,6 +60,10 @@ kotlin {
 
         implementation(libs.kotlinx.datetime)
 
+        implementation(libs.koin.compose)
+        implementation(libs.koin.compose.viewmodel)
+        api(libs.koin.core)
+
         testImplementation(libs.kotlin.test)
     }
 }
