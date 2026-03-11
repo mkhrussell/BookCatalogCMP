@@ -24,6 +24,7 @@ import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
+import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
@@ -43,6 +44,7 @@ import com.kamrul.bookcatalog.book.presentation.book_list.components.BookSearchB
 import com.kamrul.bookcatalog.core.presentation.DarkBlue
 import com.kamrul.bookcatalog.core.presentation.DesertWhite
 import com.kamrul.bookcatalog.core.presentation.SandYellow
+import kotlinx.coroutines.launch
 import org.jetbrains.compose.resources.stringResource
 import org.koin.compose.viewmodel.koinViewModel
 
@@ -70,12 +72,17 @@ private fun BooklistScreen(
     onAction: (BookListAction) -> Unit,
 ) {
     val keyboardController = LocalSoftwareKeyboardController.current
-    val pagerState = rememberPagerState { 2 }
+    val rememberScope = rememberCoroutineScope()
+    val pagerState = rememberPagerState(pageCount = { 2 })
     val searchResultListState = rememberLazyListState()
     val favoriteBooksListState = rememberLazyListState()
 
     LaunchedEffect(state.searchResult) {
         searchResultListState.animateScrollToItem(0)
+    }
+
+    LaunchedEffect(pagerState.currentPage) {
+        onAction(BookListAction.OnTabSelected(pagerState.currentPage))
     }
 
     Column(
@@ -109,7 +116,7 @@ private fun BooklistScreen(
                 horizontalAlignment = Alignment.CenterHorizontally
             ) {
                 SecondaryTabRow(
-                    selectedTabIndex = state.selectedTabIndex,
+                    selectedTabIndex = pagerState.currentPage,
                     modifier = Modifier
                         .padding(vertical = 12.dp)
                         .widthIn(max = 700.dp)
@@ -118,14 +125,20 @@ private fun BooklistScreen(
                     contentColor = SandYellow,
                     indicator = {
                         TabRowDefaults.SecondaryIndicator(
+                            modifier = Modifier.tabIndicatorOffset(
+                                selectedTabIndex = pagerState.currentPage,
+                                matchContentSize = false
+                            ),
                             color = SandYellow
                         )
                     }
                 ) {
                     Tab(
-                        selected = state.selectedTabIndex == 0,
+                        selected = pagerState.currentPage == 0,
                         onClick = {
-                            onAction(BookListAction.OnTabSelected(0))
+                            rememberScope.launch {
+                                pagerState.animateScrollToPage(0)
+                            }
                         },
                         modifier = Modifier
                             .weight(1f),
@@ -139,9 +152,11 @@ private fun BooklistScreen(
                         )
                     }
                     Tab(
-                        selected = state.selectedTabIndex == 1,
+                        selected = pagerState.currentPage == 1,
                         onClick = {
-                            onAction(BookListAction.OnTabSelected(1))
+                            rememberScope.launch {
+                                pagerState.animateScrollToPage(1)
+                            }
                         },
                         modifier = Modifier
                             .weight(1f),
