@@ -18,7 +18,7 @@ private fun BookSearchBarPreview() {
         BookSearchBar(
             searchQuery = "",
             onSearchQueryChange = {},
-            onImeSearchAction = {},
+            onImeSearch = {},
             modifier = Modifier.fillMaxWidth()
         )
     }
