@@ -36,6 +36,19 @@ kotlin {
         }
     }
 
+    sourceSets {
+        commonMain.dependencies {
+            implementation(libs.bundles.ktor)
+            implementation(libs.bundles.coil)
+        }
+        androidMain.dependencies {
+            implementation(libs.ktor.client.okhttp)
+        }
+        iosMain.dependencies {
+            implementation(libs.ktor.client.darwin)
+        }
+    }
+
     jvm()
 
     js {
