@@ -16,6 +16,9 @@ import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
 import androidx.navigation.navigation
 import com.kamrul.bookcatalog.book.presentation.SelectedBookViewModel
+import com.kamrul.bookcatalog.book.presentation.book_detail.BookDetailAction
+import com.kamrul.bookcatalog.book.presentation.book_detail.BookDetailScreenRoot
+import com.kamrul.bookcatalog.book.presentation.book_detail.BookDetailViewModel
 import com.kamrul.bookcatalog.book.presentation.book_list.BookListViewModel
 import com.kamrul.bookcatalog.book.presentation.book_list.BooklistScreenRoot
 import org.koin.compose.viewmodel.koinViewModel
@@ -54,14 +57,21 @@ fun App() {
                 composable<Route.BookDetail> {
                     val selectedBookViewModel =
                         it.sharedKoinViewModel<SelectedBookViewModel>(navController)
+                    val viewModel = koinViewModel<BookDetailViewModel>()
                     val selectedBook by selectedBookViewModel.selectedBook.collectAsStateWithLifecycle()
-                    Box(
-                        modifier = Modifier
-                            .fillMaxSize(),
-                        contentAlignment = Alignment.Center
-                    ) {
-                        Text(text = "Book Detail: $selectedBook")
+
+                    LaunchedEffect(selectedBook) {
+                        selectedBook?.let { book ->
+                            viewModel.onAction(BookDetailAction.OnSelectedBookChange(book))
+                        }
                     }
+
+                    BookDetailScreenRoot(
+                        viewModel = viewModel,
+                        onBackClick = {
+                            navController.navigateUp()
+                        }
+                    )
                 }
             }
         }
