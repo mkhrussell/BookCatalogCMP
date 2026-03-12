@@ -1,5 +1,5 @@
 import org.jetbrains.kotlin.gradle.ExperimentalKotlinGradlePluginApi
-import org.jetbrains.kotlin.gradle.ExperimentalWasmDsl
+//import org.jetbrains.kotlin.gradle.ExperimentalWasmDsl
 import org.jetbrains.kotlin.gradle.dsl.JvmTarget
 
 plugins {
@@ -8,6 +8,8 @@ plugins {
     alias(libs.plugins.composeMultiplatform)
     alias(libs.plugins.composeCompiler)
     alias(libs.plugins.kotlinSerialization)
+    alias(libs.plugins.ksp)
+    alias(libs.plugins.room)
 }
 
 kotlin {
@@ -39,19 +41,22 @@ kotlin {
 
     jvm()
 
-    js {
-        browser()
-    }
-
-    @OptIn(ExperimentalWasmDsl::class)
-    wasmJs {
-        browser()
-    }
+//    js {
+//        browser()
+//    }
+//
+//    @OptIn(ExperimentalWasmDsl::class)
+//    wasmJs {
+//        browser()
+//    }
 
     sourceSets {
         commonMain.dependencies {
             implementation(libs.bundles.ktor)
             implementation(libs.bundles.coil)
+
+            implementation(libs.androidx.room.runtime)
+            implementation(libs.sqlite.bundled)
         }
         androidMain.dependencies {
             implementation(libs.ktor.client.okhttp)
@@ -62,12 +67,12 @@ kotlin {
         jvmMain.dependencies {
             implementation(libs.ktor.client.okhttp)
         }
-        jsMain.dependencies {
-            implementation(libs.ktor.client.js)
-        }
-        wasmJsMain.dependencies {
-            implementation(libs.ktor.client.wasm)
-        }
+//        jsMain.dependencies {
+//            implementation(libs.ktor.client.js)
+//        }
+//        wasmJsMain.dependencies {
+//            implementation(libs.ktor.client.wasm)
+//        }
     }
 
     @OptIn(ExperimentalKotlinGradlePluginApi::class)
@@ -93,6 +98,16 @@ kotlin {
     }
 }
 
+room {
+    schemaDirectory("$projectDir/schemas")
+}
+
 dependencies {
+    add("kspAndroid", libs.androidx.room.compiler)
+    add("kspJvm", libs.androidx.room.compiler)
+    add("kspIosArm64", libs.androidx.room.compiler)
+    add("kspIosSimulatorArm64", libs.androidx.room.compiler)
+//    add("kspJs", libs.androidx.room.compiler)
+//    add("kspWasmJs", libs.androidx.room.compiler)
     androidRuntimeClasspath(libs.compose.uiTooling)
 }
