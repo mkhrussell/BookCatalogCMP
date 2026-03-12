@@ -1,7 +1,9 @@
 package com.kamrul.bookcatalog
 
+import androidx.compose.runtime.remember
 import androidx.compose.ui.ExperimentalComposeUiApi
 import androidx.compose.ui.window.ComposeViewport
+import io.ktor.client.engine.js.Js
 import kotlin.js.ExperimentalWasmJsInterop
 import kotlin.js.JsModule
 
@@ -14,6 +16,8 @@ private val jsJodaTz = JsJodaTimeZoneModule
 @OptIn(ExperimentalComposeUiApi::class)
 fun main() {
     ComposeViewport {
-        App()
+        App(
+            engine = remember { Js.create() }
+        )
     }
 }

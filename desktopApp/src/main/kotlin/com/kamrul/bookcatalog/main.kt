@@ -1,11 +1,13 @@
 package com.kamrul.bookcatalog
 
+import androidx.compose.runtime.remember
 import androidx.compose.ui.unit.DpSize
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.window.Window
 import androidx.compose.ui.window.WindowPosition
 import androidx.compose.ui.window.application
 import androidx.compose.ui.window.rememberWindowState
+import io.ktor.client.engine.okhttp.OkHttp
 
 fun main() = application {
     val state = rememberWindowState(
@@ -18,6 +20,6 @@ fun main() = application {
         state = state,
         alwaysOnTop = true
     ) {
-        App()
+        App(engine = remember { OkHttp.create() })
     }
 }
