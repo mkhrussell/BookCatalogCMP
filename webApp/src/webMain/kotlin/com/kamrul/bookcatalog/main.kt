@@ -2,6 +2,7 @@ package com.kamrul.bookcatalog
 
 import androidx.compose.ui.ExperimentalComposeUiApi
 import androidx.compose.ui.window.ComposeViewport
+import com.kamrul.bookcatalog.app.App
 import com.kamrul.bookcatalog.di.initKoin
 import kotlin.js.ExperimentalWasmJsInterop
 
