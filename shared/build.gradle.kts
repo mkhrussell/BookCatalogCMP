@@ -85,6 +85,8 @@ kotlin {
         implementation(libs.koin.compose.viewmodel)
         api(libs.koin.core)
 
+        implementation(libs.compose.navigation)
+
         implementation(libs.compose.uiToolingPreview)
 
         testImplementation(libs.kotlin.test)
