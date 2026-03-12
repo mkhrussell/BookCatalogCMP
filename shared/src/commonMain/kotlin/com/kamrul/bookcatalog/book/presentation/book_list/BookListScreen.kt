@@ -247,7 +247,7 @@ private fun BooklistScreenPreview() {
     MaterialTheme {
         BooklistScreen(
             state = BookListState(
-                searchResult = dummyBooks
+                searchResult = emptyList()
             ),
             onAction = {}
         )
