@@ -13,6 +13,7 @@ import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.verticalScroll
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Star
+import androidx.compose.material3.CircularProgressIndicator
 import androidx.compose.material3.Icon
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
@@ -20,13 +21,16 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import bookcatalogcmp.shared.generated.resources.Res
+import bookcatalogcmp.shared.generated.resources.description_unavailable
 import bookcatalogcmp.shared.generated.resources.languages
 import bookcatalogcmp.shared.generated.resources.pages
 import bookcatalogcmp.shared.generated.resources.rating
+import bookcatalogcmp.shared.generated.resources.synopsis
 import com.kamrul.bookcatalog.book.presentation.book_detail.components.BlurredImageBackground
 import com.kamrul.bookcatalog.book.presentation.book_detail.components.BookChip
 import com.kamrul.bookcatalog.book.presentation.book_detail.components.ChipSize
@@ -148,6 +152,38 @@ fun BookDetailScreen(
                             }
                         }
                     }
+                }
+                Text(
+                    text = stringResource(Res.string.synopsis),
+                    style = MaterialTheme.typography.titleLarge,
+                    modifier = Modifier
+                        .align(Alignment.Start)
+                        .padding(vertical = 8.dp)
+                        .fillMaxWidth()
+                        .padding(
+                            top = 24.dp,
+                            bottom = 8.dp
+                        )
+                )
+                if (state.isLoading) {
+                    CircularProgressIndicator()
+                } else {
+                    Text(
+                        text = if (state.book.description.isNullOrBlank()) {
+                            stringResource(Res.string.description_unavailable)
+                        } else {
+                            state.book.description
+                        },
+                        style = MaterialTheme.typography.bodyMedium,
+                        textAlign = TextAlign.Justify,
+                        color = if (state.book.description.isNullOrBlank()) {
+                            Color.Black.copy(alpha = 0.4f)
+                        } else {
+                            Color.Black
+                        },
+                        modifier = Modifier
+                            .padding(vertical = 8.dp)
+                    )
                 }
             }
         }
