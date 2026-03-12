@@ -18,8 +18,6 @@ private val jsJodaTz = JsJodaTimeZoneModule
 fun main() {
     initKoin()
     ComposeViewport {
-        App(
-            engine = remember { Js.create() }
-        )
+        App()
     }
 }
