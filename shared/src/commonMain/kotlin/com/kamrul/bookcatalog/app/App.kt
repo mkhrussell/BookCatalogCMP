@@ -7,11 +7,15 @@ import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.tooling.preview.Preview
+import androidx.lifecycle.ViewModel
+import androidx.lifecycle.compose.collectAsStateWithLifecycle
+import androidx.navigation.NavBackStackEntry
+import androidx.navigation.NavController
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
 import androidx.navigation.navigation
-import androidx.navigation.toRoute
+import com.kamrul.bookcatalog.book.presentation.SelectedBookViewModel
 import com.kamrul.bookcatalog.book.presentation.book_list.BookListViewModel
 import com.kamrul.bookcatalog.book.presentation.book_list.BooklistScreenRoot
 import org.koin.compose.viewmodel.koinViewModel
@@ -19,7 +23,6 @@ import org.koin.compose.viewmodel.koinViewModel
 @Composable
 @Preview
 fun App() {
-    val viewModel = koinViewModel<BookListViewModel>()
     MaterialTheme {
         val navController = rememberNavController()
         NavHost(
@@ -30,26 +33,48 @@ fun App() {
                 startDestination = Route.BookList
             ) {
                 composable<Route.BookList> {
+                    val viewModel = koinViewModel<BookListViewModel>()
+                    val selectedBookViewModel =
+                        it.sharedKoinViewModel<SelectedBookViewModel>(navController)
+
+                    LaunchedEffect(true) {
+                        selectedBookViewModel.onSelectedBook(null)
+                    }
+
                     BooklistScreenRoot(
                         viewModel = viewModel,
                         onBookClick = { book ->
+                            selectedBookViewModel.onSelectedBook(book)
                             navController.navigate(
                                 Route.BookDetail(book.id)
                             )
                         }
                     )
                 }
-                composable<Route.BookDetail> { entry ->
-                    val args = entry.toRoute<Route.BookDetail>()
+                composable<Route.BookDetail> {
+                    val selectedBookViewModel =
+                        it.sharedKoinViewModel<SelectedBookViewModel>(navController)
+                    val selectedBook by selectedBookViewModel.selectedBook.collectAsStateWithLifecycle()
                     Box(
                         modifier = Modifier
                             .fillMaxSize(),
                         contentAlignment = Alignment.Center
                     ) {
-                        Text(text = "Book Detail: ${args.id}")
+                        Text(text = "Book Detail: $selectedBook")
                     }
                 }
             }
         }
     }
+}
+
+@Composable
+private inline fun <reified T: ViewModel> NavBackStackEntry.sharedKoinViewModel(
+    navController: NavController
+): T {
+    val navGraphRoute = destination.parent?.route ?: return koinViewModel<T>()
+    val parentEntry = remember(this) {
+        navController.getBackStackEntry(navGraphRoute)
+    }
+    return koinViewModel(viewModelStoreOwner = parentEntry)
 }
