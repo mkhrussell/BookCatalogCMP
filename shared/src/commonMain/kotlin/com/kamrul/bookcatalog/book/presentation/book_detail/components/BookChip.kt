@@ -1,7 +1,9 @@
 package com.kamrul.bookcatalog.book.presentation.book_detail.components
 
 import androidx.compose.foundation.background
+import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
+import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.widthIn
 import androidx.compose.foundation.shape.RoundedCornerShape
@@ -38,6 +40,11 @@ fun BookChip(
             ),
         contentAlignment = Alignment.Center
     ) {
-        chipContent()
+        Row(
+            verticalAlignment = Alignment.CenterVertically,
+            horizontalArrangement = Arrangement.Center
+        ) {
+            chipContent()
+        }
     }
 }
