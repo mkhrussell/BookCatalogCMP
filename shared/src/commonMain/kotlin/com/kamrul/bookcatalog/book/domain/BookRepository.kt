@@ -7,4 +7,8 @@ interface BookRepository {
     suspend fun searchBooks(
         query: String
     ): Result<List<Book>, DataError.Remote>
+
+    suspend fun getBookDeDescription(
+        bookId: String
+    ): Result<String?, DataError>
 }
