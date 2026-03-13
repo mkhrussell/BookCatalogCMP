@@ -6,7 +6,7 @@ import com.kamrul.bookcatalog.book.domain.Book
 import com.kamrul.bookcatalog.book.domain.BookRepository
 import com.kamrul.bookcatalog.core.domain.onError
 import com.kamrul.bookcatalog.core.domain.onSuccess
-import com.kamrul.bookcatalog.core.domain.toUiText
+import com.kamrul.bookcatalog.core.presentation.toUiText
 import kotlinx.coroutines.FlowPreview
 import kotlinx.coroutines.Job
 import kotlinx.coroutines.flow.MutableStateFlow

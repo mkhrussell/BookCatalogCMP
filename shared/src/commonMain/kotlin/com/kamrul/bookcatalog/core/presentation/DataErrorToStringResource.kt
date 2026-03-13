@@ -1,4 +1,4 @@
-package com.kamrul.bookcatalog.core.domain
+package com.kamrul.bookcatalog.core.presentation
 
 import bookcatalogcmp.shared.generated.resources.Res
 import bookcatalogcmp.shared.generated.resources.error_disk_full
@@ -7,7 +7,7 @@ import bookcatalogcmp.shared.generated.resources.error_request_timeout
 import bookcatalogcmp.shared.generated.resources.error_serialization
 import bookcatalogcmp.shared.generated.resources.error_too_many_requests
 import bookcatalogcmp.shared.generated.resources.error_unknown
-import com.kamrul.bookcatalog.core.presentation.UiText
+import com.kamrul.bookcatalog.core.domain.DataError
 
 fun DataError.toUiText(): UiText {
     val stringResource = when(this) {
