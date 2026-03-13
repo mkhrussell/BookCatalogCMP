@@ -1,5 +1,8 @@
 package com.kamrul.bookcatalog.di
 
+import androidx.sqlite.driver.bundled.BundledSQLiteDriver
+import com.kamrul.bookcatalog.book.data.database.DatabaseFactory
+import com.kamrul.bookcatalog.book.data.database.FavoriteBookDatabase
 import com.kamrul.bookcatalog.book.data.network.KtorRemoteBookDatasource
 import com.kamrul.bookcatalog.book.data.network.RemoteBookDataSource
 import com.kamrul.bookcatalog.book.data.repository.DefaultBookRepository
@@ -24,6 +27,14 @@ val sharedModule = module {
     }
     singleOf(::KtorRemoteBookDatasource).bind<RemoteBookDataSource>()
     singleOf(::DefaultBookRepository).bind<BookRepository>()
+
+    single {
+        get<DatabaseFactory>().create()
+            .setDriver(BundledSQLiteDriver())
+            .build()
+    }
+
+    single { get<FavoriteBookDatabase>().favoriteBookDao }
 
     viewModelOf(::BookListViewModel)
     viewModelOf(::BookDetailViewModel)
