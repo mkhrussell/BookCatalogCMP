@@ -210,7 +210,8 @@ private fun BooklistScreen(
                                                 onBookClick = { book ->
                                                     onAction(BookListAction.OnBookClick(book))
                                                 },
-                                                scrollState = searchResultListState
+                                                scrollState = searchResultListState,
+                                                modifier = Modifier.fillMaxSize()
                                             )
                                         }
                                     }
@@ -229,7 +230,8 @@ private fun BooklistScreen(
                                         onBookClick = { book ->
                                             onAction(BookListAction.OnBookClick(book))
                                         },
-                                        scrollState = favoriteBooksListState
+                                        scrollState = favoriteBooksListState,
+                                        modifier = Modifier.fillMaxSize()
                                     )
                                 }
                             }
