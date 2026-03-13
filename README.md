@@ -4,6 +4,11 @@ BookCatalogCMP is a Kotlin Multiplatform (KMP) book discovery app built with Com
 
 The app searches books from the Open Library API, shows book details, and lets users save favorites locally with Room.
 
+## Demo Videos
+
+### Android
+[https://github.com/user-attachments/assets/abcdef12-3456-7890-abcd-1234567890ab](https://github.com/user-attachments/assets/0201ac9c-e412-4ee0-92b3-dcbf38d8b221)
+
 ## Targets
 
 - Android application in `androidApp`
